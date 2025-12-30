@@ -11,11 +11,69 @@ body {
     height: 100vh;
     margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 10px;
     box-sizing: border-box;
+    position: relative;
 }
+
+
+/* Header at top center */
+.game-header {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;       /* base size for desktop */
+    font-weight: 900;
+    color: #ffdd57;
+    text-shadow: 
+        3px 3px 10px rgba(0,0,0,0.6), 
+        0 0 15px #ffdd57;
+    animation: pulse 1.5s infinite alternate;
+    z-index: 10;
+    text-align: center;    /* center the emoji */
+    max-width: 90%;       /* ensures text wraps on tiny screens */
+    white-space: normal;
+}
+
+.game-header .emoji {
+    font-size: 2.5rem;    /* size of emoji */
+    margin-top: 5px;      /* space between header and emoji */
+}
+
+@keyframes pulse {
+    0% { text-shadow: 3px 3px 10px rgba(0,0,0,0.6), 0 0 15px #ffdd57; }
+    100% { text-shadow: 5px 5px 15px rgba(0,0,0,0.6), 0 0 25px #ffdd57; }
+}
+
+/* --- Responsive for mobile --- */
+@media (max-width: 480px) {
+    .game-header {
+        font-size: 2.5rem;  /* smaller header text */
+        top: 10px;          /* adjust position */
+    }
+
+    .game-header .emoji {
+        font-size: 1.8rem;  /* smaller emoji */
+        margin-top: 3px;
+    }
+}
+
+@media (max-width: 350px) {
+    .game-header {
+        font-size: 2rem;
+        top: 8px;
+    }
+
+    .game-header .emoji {
+        font-size: 1.5rem;
+        margin-top: 2px;
+    }
+}
+
 
 .card {
     background: white;
@@ -77,9 +135,18 @@ button:disabled {
 #nextRoundBtn {
     width: 50%;  /* half width */
 }
+
 </style>
 </head>
 <body>
+
+<!-- Header added -->
+
+<div class="game-header">
+<span style="display:block; margin-bottom: 10px;"></span>
+    Let's Play !
+    <div class="emoji">🎮✨</div>
+</div>
 
 <div class="card">
     <h2 id="title">Player 1</h2>
@@ -94,14 +161,17 @@ let totalPlayers = 5;
 let currentPlayer = 1;
 
 const categories = {
-    Cricket: ["Bat","Ball","Wicket","Bowler"],
-    Food: ["Pizza","Burger","Biryani","Pasta"],
-    Actor: ["Tom Cruise","SRK","Leonardo"],
-    Movie: ["Inception","Titanic","Avengers"],
-    Nature: ["Mountain","Beach","Forest"]
-};
-
-const title = document.getElementById("title");
+    Cricket: ["Bat", "Ball", "Wicket", "Bowler", "Helmet", "Stump", "Pitch", "Boundary", "Umpire", "Catch"],
+    Food: ["Pizza", "Burger", "Biryani", "Pasta", "Sushi", "Taco", "Ice Cream", "Salad", "Pancake", "Dumplings"],
+    Actor: ["Tom Cruise", "SRK", "Leonardo DiCaprio", "Scarlett Johansson", "Robert Downey Jr.", "Priyanka Chopra", "Brad Pitt", "Jennifer Lawrence", "Chris Hemsworth", "Angelina Jolie"],
+    Movie: ["Inception", "Titanic", "Avengers", "Avatar", "Joker", "The Dark Knight", "Interstellar", "Frozen", "The Matrix", "Parasite"],
+    Nature: ["Mountain", "Beach", "Forest", "Desert", "Waterfall", "River", "Canyon", "Glacier", "Volcano", "Lake"],
+    Technology: ["Computer", "Smartphone", "Laptop", "Drone", "Robot", "AI", "VR Headset", "Smartwatch", "Tablet", "3D Printer"],
+    Sports: ["Football", "Basketball", "Tennis", "Hockey", "Swimming", "Cricket", "Rugby", "Golf", "Badminton", "Boxing"],
+    Animals: ["Lion", "Elephant", "Tiger", "Giraffe", "Kangaroo", "Monkey", "Penguin", "Dolphin", "Eagle", "Bear"],
+    Vehicles: ["Car", "Bicycle", "Motorcycle", "Airplane", "Train", "Ship", "Bus", "Truck", "Helicopter", "Scooter"],
+    Countries: ["India", "USA", "Canada", "Australia", "France", "Japan", "Brazil", "Germany", "Italy", "Egypt"]
+};const title = document.getElementById("title");
 const message = document.getElementById("message");
 const showBtn = document.getElementById("showBtn");
 const nextRoundBtn = document.getElementById("nextRoundBtn");
