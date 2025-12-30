@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Imposter Game</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 360px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .word {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+
+        .imposter {
+            color: #e74c3c;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        button:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2 id="title">Player 1</h2>
+    <div id="message" class="word">Click the button to see your word</div>
+    <button id="showBtn">Show Word</button>
+    <div class="footer">Word will disappear in 2 seconds</div>
+</div>
+
+<script>
+    const categories = {
+        Cricket: ["Bat", "Ball", "Wicket", "Bowler"],
+        Food: ["Pizza", "Burger", "Biryani", "Pasta"],
+        Actor: ["Tom Cruise", "SRK", "Leonardo"],
+        Movie: ["Inception", "Titanic", "Avengers"],
+        Nature: ["Mountain", "Beach", "Forest"]
+    };
+
+    const totalPlayers = 5;
+    let currentPlayer = 1;
+
+    const categoryKeys = Object.keys(categories);
+    const category = categoryKeys[Math.floor(Math.random() * categoryKeys.length)];
+    const words = categories[category];
+
+    const mainWord = words[Math.floor(Math.random() * words.length)];
+
+    let imposterWord;
+    do {
+        imposterWord = words[Math.floor(Math.random() * words.length)];
+    } while (imposterWord === mainWord);
+
+    const imposterPlayer = Math.floor(Math.random() * totalPlayers) + 1;
+
+    const title = document.getElementById("title");
+    const message = document.getElementById("message");
+    const showBtn = document.getElementById("showBtn");
+
+    showBtn.addEventListener("click", () => {
+        showBtn.disabled = true;
+
+        if (currentPlayer === imposterPlayer) {
+            message.innerHTML = `
+                <span class="imposter">
+                    YOU ARE THE IMPOSTER<br>
+                    Hint word: ${category}
+                </span>
+            `;
+        } else {
+            message.textContent = mainWord;
+            message.classList.remove("imposter");
+        }
+
+        setTimeout(nextPlayer, 2000);
+    });
+
+    function nextPlayer() {
+        currentPlayer++;
+
+        if (currentPlayer > totalPlayers) {
+            title.textContent = "Round Over";
+            message.textContent = "Discuss and find the imposter!";
+            showBtn.disabled = true;
+        } else {
+            title.textContent = "Player " + currentPlayer;
+            message.textContent = "Click the button to see your word";
+            showBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
